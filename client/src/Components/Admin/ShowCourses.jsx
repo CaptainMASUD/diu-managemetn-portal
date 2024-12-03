@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaBook } from "react-icons/fa";
-import { Button } from 'flowbite-react';
+import { FaBook, FaSearch } from "react-icons/fa";  // Import FaSearch for the search icon
+import { Button, TextInput } from 'flowbite-react'; // Use TextInput for the search field
 
 const ShowCourses = () => {
   const [courses, setCourses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -30,6 +31,12 @@ const ShowCourses = () => {
     }
   };
 
+  // Filter courses based on search query (by course name or ID)
+  const filteredCourses = courses.filter((course) =>
+    course.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.course_id.toString().includes(searchQuery)
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,6 +48,18 @@ const ShowCourses = () => {
         <FaBook className="mr-2 text-blue-600" />
         All Courses
       </h2>
+
+      {/* Search Input */}
+      <div className="mb-6 flex items-center gap-2">
+        <FaSearch className="text-gray-600" />
+        <TextInput
+          placeholder="Search by course name or ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full"
+        />
+      </div>
+
       <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
         <thead>
           <tr className="bg-gray-100">
@@ -53,7 +72,7 @@ const ShowCourses = () => {
           </tr>
         </thead>
         <tbody>
-          {courses.map((course) => (
+          {filteredCourses.map((course) => (
             <tr key={course.id}>
               <td className="px-4 py-2 border-b">{course.course_id}</td>
               <td className="px-4 py-2 border-b">{course.course_name}</td>

@@ -1,15 +1,12 @@
 const db = require('../config/db');
-
-// SQL Queries to create tables
 const createTables = `
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  password VARCHAR(255) NOT NULL, -- For storing hashed passwords
+  password VARCHAR(255) NOT NULL,
   role ENUM('student', 'teacher', 'admin') NOT NULL,
   UNIQUE KEY unique_name_role (name, role)
 );
-
 
 CREATE TABLE IF NOT EXISTS courses (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,9 +40,18 @@ CREATE TABLE IF NOT EXISTS teacher_courses (
   FOREIGN KEY (teacher_id) REFERENCES users(id),
   FOREIGN KEY (course_id) REFERENCES courses(id)
 );
+
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  subject VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 `;
 
-db.query(createTables, err => {
+db.query(createTables, (err) => {
   if (err) throw err;
   console.log('Tables created or already exist.');
 });

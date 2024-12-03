@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { Button } from 'flowbite-react';
+import { FaChalkboardTeacher, FaSearch } from "react-icons/fa";  // Import FaSearch for the search icon
+import { Button, TextInput } from 'flowbite-react'; // Use TextInput for the search field
 
 const ShowAdvisorAssignments = () => {
   const [assignments, setAssignments] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
 
   useEffect(() => {
     const fetchAssignments = async () => {
@@ -30,6 +31,12 @@ const ShowAdvisorAssignments = () => {
     }
   };
 
+  // Filter assignments based on search query (by student name or teacher name)
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    assignment.teacher_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,20 +48,32 @@ const ShowAdvisorAssignments = () => {
         <FaChalkboardTeacher className="mr-2 text-green-600" />
         Advisor Assignments
       </h2>
+
+      {/* Search Input */}
+      <div className="mb-6 flex items-center gap-2">
+        <FaSearch className="text-gray-600" />
+        <TextInput
+          placeholder="Search by student or teacher name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full"
+        />
+      </div>
+
       <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
         <thead>
           <tr className="bg-gray-100">
-            <th className="px-4 py-2 border-b text-left">Student Name</th>
-            <th className="px-4 py-2 border-b text-left">Teacher Name</th>
-            <th className="px-4 py-2 border-b text-left">Actions</th>
+            <th className="px-4 py-2 border-b text-left text-center">Student Name</th>
+            <th className="px-4 py-2 border-b text-left text-center">Teacher Name</th>
+            <th className="px-4 py-2 border-b text-left text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {assignments.map((assignment) => (
+          {filteredAssignments.map((assignment) => (
             <tr key={assignment.id}>
-              <td className="px-4 py-2 border-b">{assignment.student_name}</td>
-              <td className="px-4 py-2 border-b">{assignment.teacher_name}</td>
-              <td className="px-4 py-2 border-b flex gap-2">
+              <td className="px-4 py-2 border-b text-center">{assignment.student_name}</td>
+              <td className="px-4 py-2 border-b text-center">{assignment.teacher_name}</td>
+              <td className="px-4 py-2 border-b flex gap-2 justify-center">
                 <Button color="failure" onClick={() => handleDelete(assignment.id)} className="w-full">
                   Delete
                 </Button>

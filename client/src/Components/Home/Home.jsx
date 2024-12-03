@@ -1,13 +1,22 @@
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaBookOpen, FaChalkboardTeacher, FaBullhorn, FaUsers } from "react-icons/fa";
+// import { FaGraduationCap, FaBookOpen, FaChalkboardTeacher, FaBullhorn, FaUsers } from "react-icons/fa";
+import { FaGraduationCap, FaBook, FaChalkboardTeacher, FaUsers, FaLaptop, FaCertificate } from 'react-icons/fa';
 
 const HomePage = () => {
+  const features = [
+    { icon: FaGraduationCap, title: 'Student Dashboard', description: 'Access your courses, grades, and schedules in one place.' },
+    { icon: FaBook, title: 'Course Catalog', description: 'Browse and enroll in a wide range of academic courses.' },
+    { icon: FaChalkboardTeacher, title: 'Expert Faculty', description: 'Learn from experienced professors and industry professionals.' },
+    { icon: FaUsers, title: 'Collaborative Learning', description: 'Engage in group projects and peer-to-peer learning.' },
+    { icon: FaLaptop, title: 'Online Resources', description: 'Access digital libraries and learning materials 24/7.' },
+    { icon: FaCertificate, title: 'Certifications', description: 'Earn recognized certifications to boost your career.' },
+  ];
   return (
     <div className="font-sans bg-gray-100 min-h-screen">
       {/* Hero Section (Flowbite Carousel) */}
-      <section className="relative h-[400px]">
+      <section className="relative h-[400px] z-0">
         <Carousel>
           <div className="relative w-full h-full">
             <img
@@ -65,64 +74,51 @@ const HomePage = () => {
         </Carousel>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="text-3xl font-semibold mb-12"
-          >
-            Our Features
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <FaGraduationCap className="text-4xl text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Student Dashboard</h3>
-              <p>Manage your courses, assignments, and track your progress in one place.</p>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <FaBookOpen className="text-4xl text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Course Management</h3>
-              <p>Efficient tools to create and manage your courses and materials.</p>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <FaChalkboardTeacher className="text-4xl text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Teacher Dashboard</h3>
-              <p>View your classes, students, assignments, and track performance.</p>
-            </motion.div>
+     {/* Features Section */}
+     <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
+              >
+                <feature.icon className="text-4xl text-blue-600 mb-4" />
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="py-16 bg-blue-600 text-white text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-3xl font-semibold mb-4"
-        >
-          Join Us Today
-        </motion.h2>
-        <p className="text-xl mb-8">Experience a seamless and modern educational environment.</p>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          className="bg-yellow-500 text-white py-2 px-8 rounded-lg font-semibold"
-        >
-          Get Started
-        </motion.button>
+        {/* CTA Section */}
+        <section className="bg-blue-600 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Learning Experience?</h2>
+            <p className="text-xl mb-8">Join thousands of students already using our platform</p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition duration-300"
+            >
+              Sign Up Now
+            </motion.button>
+          </motion.div>
+        </div>
       </section>
+
+
+  
     </div>
   );
 };
